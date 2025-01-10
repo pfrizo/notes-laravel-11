@@ -6,10 +6,6 @@ use App\Http\Middleware\CheckIsLogged;
 use App\Http\Middleware\CheckIsNotLogged;
 use Illuminate\Support\Facades\Route;
 
-/*Route::get('/', function(){
-    return view('welcome');
-});
-*/
 Route::middleware([CheckIsNotLogged::class])->group(function(){
     Route::get('/login', [AuthController::class, 'login']);
     Route::post('/loginSubmit', [AuthController::class, 'loginSubmit']);
@@ -28,4 +24,8 @@ Route::middleware([CheckIsLogged::class])->group(function(){
     Route::get('/deleteNoteConfirm/{id}', [MainController::class, 'deleteNoteConfirm'])->name('deleteConfirm');
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::fallback(function () {
+    return redirect()->route('home');
 });
